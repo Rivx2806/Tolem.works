@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="icon" type="C:\Users\User\Pictures\Tolem Logos\tolem on white.png">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>
+    Tolem.Works — Together Let's make</title>
+  <meta name="description" content="Tolem.Works — Creative agency. Portfolio, services, contact and sign up." />
+  <style>
+    :root{
+      --red: #d92b2b; /* primary red */
+      --white: #ffffff;
+      --bg: #fff;
+      --muted: #f7f7f7;
+      --text: #222;
+      --glass: rgba(255,255,255,0.75);
+      --shadow: 0 10px 30px rgba(0,0,0,0.08);
+      --radius: 14px;
+      --maxw: 1100px;
+      --accent: linear-gradient(90deg,var(--red),#ff5252);
+    }
+
+    /* Reset */
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial}
+    a{color:inherit;text-decoration:none}
+
+    body{background:var(--muted);color:var(--text);-webkit-font-smoothing:antialiased}
+
+    /* layout */
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:28px}
+    header{position:sticky;top:12px;z-index:40}
+    .nav{display:flex;align-items:center;gap:20px;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:55px;height:55px;border-radius:10px;background:var(--accent);display:grid;place-items:center;color:var(--white);font-weight:700;box-shadow:var(--shadow)}
+    nav ul{display:flex;gap:12px;align-items:center;margin:0;padding:0;list-style:none}
+    nav a{padding:8px 12px;border-radius:10px;font-weight:600}
+    nav a:hover{background:rgba(217,43,43,0.08)}
+
+    /* hero */
+    .hero{display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:center;padding:48px;background:linear-gradient(180deg,rgba(217,43,43,0.06),transparent);border-radius:20px}
+    .hero h1{margin:0;font-size:clamp(28px,4vw,44px);line-height:1.02}
+    .hero p{margin-top:12px;color:#444}
+    .cta{display:flex;gap:12px;margin-top:18px}
+    .btn{background:var(--red);color:var(--white);padding:10px 16px;border-radius:12px;border:0;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(217,43,43,0.15);transition:transform .25s,box-shadow .25s}
+    .btn.secondary{background:transparent;color:var(--red);border:2px solid rgba(217,43,43,0.12)}
+    .btn:hover{transform:translateY(-4px)}
+
+    /* card */
+    .card{background:var(--white);padding:18px;border-radius:14px;box-shadow:var(--shadow)}
+
+    /* services grid */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:18px}
+    .service{padding:16px;border-radius:12px;border:1px solid rgba(0,0,0,0.04);transition:transform .35s,box-shadow .35s}
+    .service:hover{transform:translateY(-8px);box-shadow:0 18px 40px rgba(0,0,0,0.06)}
+
+    /* portfolio */
+    .portfolio-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:12px}
+    .work-item{position:relative;height:180px;border-radius:12px;overflow:hidden;background:#eee;display:flex;align-items:flex-end;padding:12px}
+    .work-item .meta{backdrop-filter:blur(6px);background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.7));padding:8px;border-radius:8px}
+
+    /* contact & signup forms */
+    form{display:grid;gap:10px}
+    input[type=text],input[type=email],textarea{padding:12px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);font-size:14px}
+    textarea{min-height:120px}
+
+    footer{margin-top:28px;padding:18px;text-align:center;color:#666}
+
+    /* page layout for SPA */
+    main{padding:30px 0}
+    section{display:none;opacity:0;transform:translateY(8px);transition:opacity .45s,transform .45s}
+    section.active{display:block;opacity:1;transform:none}
+
+    /* small screens */
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr;}
+      nav ul{display:none}
+      .menu-btn{display:inline-block}
+    }
+
+    /* mobile menu */
+    .menu-btn{display:none;background:transparent;border:0;font-weight:800}
+    .mobile-menu{display:none;position:fixed;top:68px;right:18px;background:var(--white);padding:12px;border-radius:12px;box-shadow:var(--shadow)}
+    .mobile-menu.show{display:block}
+
+    /* reveal animation util */
+    .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    /* subtle page-transition overlay */
+    .page-overlay{position:fixed;inset:0;pointer-events:none;background:var(--white);z-index:80;transform:translateY(-110%);transition:transform .55s cubic-bezier(.2,.9,.28,1)}
+    .page-overlay.show{transform:none}
+
+    /* tiny decorative */
+    .accent-line{height:4px;background:var(--red);border-radius:8px;margin:8px 0}
+
+    /* footer links */
+    .socials{display:flex;gap:12px;justify-content:center}
+
+  </style>
+</head>
+<body>
+  <div class="page-overlay" id="overlay"></div>
+  <header class="wrap">
+    <div class="nav">
+      <div class="brand">
+        <div class="logo"><img src="C:\Users\User\Pictures\Tolem Logos\Rectangle 1.png" alt="Smiley face" width="48" hight="48"></div>
+        <div>
+          <div style="font-weight:800">Tolem.Works</div>
+          <div style="font-size:12px;color:#777">Achive your dreams</div>
+        </div>
+      </div>
+
+      <nav>
+        <ul>
+          <li><a href="#home" data-route>Home</a></li>
+          <li><a href="#services" data-route>Services</a></li>
+          <li><a href="#portfolio" data-route>Portfolio</a></li>
+          <li><a href="#about" data-route>About</a></li>
+          <li><a href="#contact" data-route>Contact</a></li>
+          <li><a href="#signup" data-route class="btn secondary">Sign up</a></li>
+        </ul>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn">☰</button>
+    </div>
+    <div class="mobile-menu card" id="mobileMenu" style="right:18px">
+      <a href="#home" data-route>Home</a><br>
+      <a href="#services" data-route>Services</a><br>
+      <a href="#portfolio" data-route>Portfolio</a><br>
+      <a href="#about" data-route>About</a><br>
+      <a href="#contact" data-route>Contact</a><br>
+      <a href="#signup" data-route class="btn secondary">Sign up</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- HOME -->
+    <section id="home" class="active">
+      <div class="hero card">
+        <div>
+          <h1 class="reveal">We build memorable brands & make your brand stand out online.</h1>
+          <p class="reveal">Tolem.Works — a small team that blends design, strategy and engineering to help startups & businesses grow. Below are services, recent work, and ways to get in touch.</p>
+          <div class="cta reveal">
+            <button class="btn" data-route-to="#contact">Get in touch</button>
+            <button class="btn secondary" data-route-to="#portfolio">See Portfolio</button>
+          </div>
+
+          <div class="accent-line"></div>
+
+          <div class="grid reveal">
+            <div class="service card">
+              <h3>Brand & Identity</h3>
+              <p>Create logos, visual systems and brand guides.</p>
+            </div>
+            <div class="service card">
+              <h3>Web & Apps</h3>
+              <p>Responsive websites, landing pages and web apps.</p>
+            </div>
+            <div class="service card">
+              <h3>Content & Strategy</h3>
+              <p>Content plans, funnels, social and ad strategies.</p>
+            </div>
+            <div class="service card">
+              <h3>Creative Production</h3>
+              <p>provide you with all the necessary things to keep you up to date.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="display:flex;flex-direction:column;gap:12px">
+          <h3 style="margin:0">What we've compleated</h3>
+          <div style="display:flex;gap:10px;flex-direction:column">
+            <div class="card" style="display:flex;justify-content:space-between;align-items:center"><div>Projects Completed</div><div><strong>42</strong></div></div>
+            <div class="card" style="display:flex;justify-content:space-between;align-items:center"><div>Satisfied Clients</div><div><strong>38</strong></div></div>
+            <div class="card" style="display:flex;justify-content:space-between;align-items:center"><div>Avg. Delivery</div><div><strong>4 weeks</strong></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="card">
+        <h2>Services</h2>
+        <p class="reveal">We offer end-to-end products from research to launch. Expand these cards to describe pricing, deliverables and process.</p>
+        <div class="grid">
+          <div class="service card reveal">
+            <h4>Full Brand Package</h4>
+            <p>Logo, color palette, typography, brand guidelines and application mockups.</p>
+          </div>
+          <div class="service card reveal">
+            <h4>Website & Web App</h4>
+            <p>Design & development, hosting setup, analytics and maintenance plans.</p>
+          </div>
+          <div class="service card reveal">
+            <h4>Motion & Social</h4>
+            <p>Short-form videos, motion branding, and social-ready content batches.</p>
+          </div>
+          <div class="service card reveal">
+            <h4>Consulting</h4>
+            <p>Marketing audits, funnels and growth planning.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO -->
+    <section id="portfolio">
+      <div class="card">
+        <h2>Portfolio</h2>
+       Our compleated Job's with happy customers
+        <div class="portfolio-grid" id="portfolioGrid">
+          <!-- Example items: copy & update -->
+          <a class="work-item" href="https://www.instagram.com/p/DRY_J7_jKxK/?img_index=1" img src="C:\Users\User\Pictures\Tolem AD'S\Whisk_1bdd8bb60aeee0db0094e6dbad20b306dr.jpeg">
+            <div class="meta"><strong>Brand: Paradise Tech</strong><div style="font-size:12px">Identity • Web</div></div>
+          </a>
+          <a class="work-item" href="#" data-src="/path/to/image2.jpg">
+            <div class="meta"><strong>Project: Shoply</strong><div style="font-size:12px">eCommerce • UI</div></div>
+          </a>
+          <a class="work-item" href="#" data-src="/path/to/image3.jpg">
+            <div class="meta"><strong>Campaign: Spark</strong><div style="font-size:12px">Motion • Social</div></div>
+          </a>
+          <a class="work-item" href="#" data-src="/path/to/image4.jpg">
+            <div class="meta"><strong>App: Flow</strong><div style="font-size:12px">Product • UX</div></div>
+          </a>
+        </div>
+
+        <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
+          <button class="btn" id="addWorkBtn">Add placeholder</button>
+          <small style="color:#666">(Use this as a demo; edit the HTML to add real projects or connect to a CMS)</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="card">
+        <h2>About Tolem.Works</h2>
+        <p>We are a compact multidisciplinary team focused on strong brand narratives and delightful product experiences. Put your team bios, mission and client logos here.</p>
+
+        <div class="grid" style="margin-top:12px">
+          <div class="card">
+            <h4>Our Process</h4>
+            <ol>
+              <li>Research & discovery</li>
+              <li>Concept & strategy</li>
+              <li>Design & prototype</li>
+              <li>Build & ship</li>
+            </ol>
+          </div>
+          <div class="card">
+            <h4>Clients</h4>
+            <p>Insert client logos or short testimonials. For case studies, link out to full pages or PDFs.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="card">
+        <h2>Contact</h2>
+        <p>Use this form to capture leads. Currently this form uses <code>mailto:</code> as a fallback. To accept messages reliably, connect it to an endpoint (Netlify Forms, Formspree, your server).</p>
+        <form id="contactForm">
+          <input type="text" placeholder="Your name" id="cname" required>
+          <input type="email" placeholder="Email" id="cemail" required>
+          <input type="text" placeholder="Company / Project" id="cproject">
+          <textarea placeholder="Message" id="cmessage"></textarea>
+          <div style="display:flex;gap:10px;align-items:center">
+            <button class="btn" type="submit">Send message</button>
+            <button type="button" class="btn secondary" id="saveLead">Save demo</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- SIGNUP -->
+    <section id="signup">
+      <div class="card">
+        <h2>Sign up for a discovery call</h2>
+        <p>Use this to collect emails or book calls. This demo saves signups in localStorage — replace with your mailing provider integration (Mailchimp, ConvertKit, etc.)</p>
+        <form id="signupForm">
+          <input type="email" id="semail" placeholder="Your email" required>
+          <input type="text" id="sname" placeholder="Full name (optional)">
+          <div style="display:flex;gap:10px"><button class="btn" type="submit">Sign up</button><button type="button" class="btn secondary" id="viewSignups">View signups</button></div>
+        </form>
+        <div id="signupList" style="margin-top:12px;display:none"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="wrap">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div><strong>Tolem.Works</strong><div style="font-size:12px;color:#666">Red & White creative agency</div></div>
+        <div class="socials">
+          <a href="#">Twitter</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">Dribbble</a>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:10px;color:#999;font-size:13px">© <span id="year"></span> Tolem.Works — All rights reserved.</div>
+  </footer>
+
+  <script>
+    // Simple SPA routing by hash
+    const sections = document.querySelectorAll('main section');
+    const overlay = document.getElementById('overlay');
+    function showRoute(hash){
+      // animate overlay
+      overlay.classList.add('show');
+      setTimeout(()=>{
+        sections.forEach(s=>s.classList.remove('active'));
+        const id = (hash || '#home').replace('#','');
+        const target = document.getElementById(id) || document.getElementById('home');
+        target.classList.add('active');
+        // scroll top of main
+        window.scrollTo({top:0,behavior:'smooth'});
+        overlay.classList.remove('show');
+        // reveal elements inside
+        revealVisible();
+      },220);
+    }
+
+    window.addEventListener('hashchange',()=>showRoute(location.hash));
+    document.querySelectorAll('[data-route]').forEach(a=>a.addEventListener('click',e=>{
+      e.preventDefault();location.hash = a.getAttribute('href');
+    }));
+    document.querySelectorAll('[data-route-to]').forEach(b=>b.addEventListener('click',e=>{
+      const to = b.getAttribute('data-route-to');location.hash = to;
+    }));
+
+    // mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn && menuBtn.addEventListener('click',()=>mobileMenu.classList.toggle('show'));
+
+    // reveal on scroll
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(en=>{ if(en.isIntersecting){en.target.classList.add('visible');io.unobserve(en.target);} });
+    },{threshold:0.12});
+    revealEls.forEach(el=>io.observe(el));
+    function revealVisible(){ revealEls.forEach(el=>{ if(el.getBoundingClientRect().top < window.innerHeight) el.classList.add('visible'); }); }
+
+    // portfolio add placeholder
+    document.getElementById('addWorkBtn').addEventListener('click',()=>{
+      const grid = document.getElementById('portfolioGrid');
+      const a = document.createElement('a');a.className='work-item card';a.href='#';a.innerHTML='<div class="meta"><strong>New Project</strong><div style="font-size:12px">Edit this in HTML</div></div>';
+      grid.appendChild(a);
+    });
+
+    // contact form demo behavior
+    document.getElementById('contactForm').addEventListener('submit',e=>{
+      e.preventDefault();
+      const name = document.getElementById('cname').value;
+      const email = document.getElementById('cemail').value;
+      const project = document.getElementById('cproject').value;
+      const message = document.getElementById('cmessage').value;
+      // fallback: open mail client using mailto (simple demo)
+      const subject = encodeURIComponent('Client inquiry from '+name+' — '+project);
+      const body = encodeURIComponent(message + '\n\nContact: ' + email);
+      window.location.href = `mailto:hello@tolem.works?subject=${subject}&body=${body}`;
+    });
+
+    // save lead demo
+    document.getElementById('saveLead').addEventListener('click',()=>{
+      const leads = JSON.parse(localStorage.getItem('tolem_leads')||'[]');
+      const name = document.getElementById('cname').value || 'Anonymous';
+      const email = document.getElementById('cemail').value || 'no-email';
+      leads.push({name,email,date:new Date().toISOString()});
+      localStorage.setItem('tolem_leads',JSON.stringify(leads));
+      alert('Saved lead to localStorage (demo). Replace with server-side or form provider.');
+    });
+
+    // signup demo
+    document.getElementById('signupForm').addEventListener('submit',e=>{
+      e.preventDefault();
+      const email = document.getElementById('semail').value;
+      const name = document.getElementById('sname').value;
+      const list = JSON.parse(localStorage.getItem('tolem_signups')||'[]');
+      list.push({email,name,when:new Date().toISOString()});
+      localStorage.setItem('tolem_signups',JSON.stringify(list));
+      alert('Thanks! Signed up (demo). Connect to Mail provider to make this live.');
+      document.getElementById('signupForm').reset();
+    });
+    document.getElementById('viewSignups').addEventListener('click',()=>{
+      const el = document.getElementById('signupList');
+      const list = JSON.parse(localStorage.getItem('tolem_signups')||'[]');
+      if(list.length===0){el.style.display='block';el.textContent='No signups yet.';return}
+      el.style.display='block';el.innerHTML = '<ul>'+list.map(i=>`<li>${i.email} — ${i.name||'—'} — ${new Date(i.when).toLocaleString()}</li>`).join('')+'</ul>';
+    });
+
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // small enhancement: background images for work items if data-src provided
+    document.querySelectorAll('.work-item').forEach(it=>{
+      const src = it.getAttribute('data-src');
+      if(src){ it.style.backgroundImage = `url(${src})`; it.style.backgroundSize='cover'; it.style.backgroundPosition='center'; }
+    });
+
+    // init route
+    if(!location.hash) location.hash='#home'; else showRoute(location.hash);
+
+  </script>
+
+  </body>
+</html>
